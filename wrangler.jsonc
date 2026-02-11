@@ -2,18 +2,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "syncsolved",
   "compatibility_date": "2026-02-11",
-  "compatibility_flags": ["nodejs_compat"],
-  "pages_build_output_dir": "./dist",
-  "r2_buckets": [
-    {
-      "binding": "REPORTS",
-      "bucket_name": "syncsolved-reports"
-    }
+  "compatibility_flags": [
+    "nodejs_compat"
   ],
-  "ai": {
-    "binding": "AI"
-  },
-  "browser": {
-    "binding": "BROWSER"
-  }
+  "pages_build_output_dir": "./dist"
 }
