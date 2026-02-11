@@ -1,11 +1,305 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Energy Intelligence, Delivered" description="Three free intelligence tools for energy, commodities, and industrials. Get the data you need to make decisions — not next quarter, now.">
+  <Header slot="header" />
+
+  <!-- Hero -->
+  <section class="hero glass-overlay">
+    <div class="container hero__content">
+      <div class="section__label">Energy · Commodities · Industrials</div>
+      <h1 class="hero__title animate-fade-up">
+        The data you need costs<br />
+        <span class="text-gradient">everyone else $200k a year</span>
+      </h1>
+      <p class="hero__subtitle animate-fade-up animate-delay-1">
+        Three tools. Nine institutional databases. Country market briefs, commodity pricing, regulatory intel. Download the report. No signup. No subscription.
+      </p>
+      <div class="hero__actions animate-fade-up animate-delay-2">
+        <a href="/tools/market-brief" class="btn btn--primary btn--lg">
+          Generate a Market Brief
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/tools/commodity-intel" class="btn btn--secondary btn--lg">
+          See Commodity Data
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <section class="stats-bar">
+    <div class="container stats-bar__inner">
+      <div class="stat animate-fade-up">
+        <div class="stat__value">190+</div>
+        <div class="stat__label">Countries covered</div>
+      </div>
+      <div class="stat animate-fade-up animate-delay-1">
+        <div class="stat__value">68</div>
+        <div class="stat__label">Commodities tracked</div>
+      </div>
+      <div class="stat animate-fade-up animate-delay-2">
+        <div class="stat__value">5,000+</div>
+        <div class="stat__label">Policies indexed</div>
+      </div>
+      <div class="stat animate-fade-up animate-delay-3">
+        <div class="stat__value">9</div>
+        <div class="stat__label">Data sources</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The three tools -->
+  <section class="section" id="tools">
+    <div class="container">
+      <div class="section__label">Intelligence Tools</div>
+      <h2 class="tools-heading">Pick a country. Pick a commodity.<br />Get the report.</h2>
+      <p class="tools-subheading">Each tool pulls live data from EIA, World Bank, UN Comtrade, IRENA, EITI, IEA, and OPEC. Combined, cleaned, and dropped into one downloadable report.</p>
+
+      <div class="grid-3 tools-grid">
+        <!-- Tool 1: Market Entry Briefing -->
+        <a href="/tools/market-brief" class="card card--accent-border tool-card">
+          <div class="tool-card__icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="4" y="4" width="32" height="32" rx="4" stroke="var(--color-accent)" stroke-width="2"/>
+              <circle cx="20" cy="18" r="8" stroke="var(--color-accent)" stroke-width="2" opacity="0.6"/>
+              <path d="M16 30h8" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="tool-card__title">Market Entry Briefing</h3>
+          <p class="tool-card__desc">
+            Select a country and sector. Get production numbers, who's buying what, pricing data, and what the government says you need to know.
+          </p>
+          <span class="tool-card__cta">
+            Generate briefing →
+          </span>
+        </a>
+
+        <!-- Tool 2: Commodity Cost Intelligence -->
+        <a href="/tools/commodity-intel" class="card card--accent-border tool-card">
+          <div class="tool-card__icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <polyline points="6,32 14,20 22,26 30,12 36,8" stroke="var(--color-accent)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="30,8 36,8 36,14" stroke="var(--color-accent)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="tool-card__title">Commodity Intelligence</h3>
+          <p class="tool-card__desc">
+            Historical price charts, trend lines, trade volumes, and market commentary for crude, gas, coal, LNG, metals, and agricultural commodities.
+          </p>
+          <span class="tool-card__cta">
+            Track commodities →
+          </span>
+        </a>
+
+        <!-- Tool 3: Regulatory Snapshot -->
+        <a href="/tools/regulatory" class="card card--accent-border tool-card">
+          <div class="tool-card__icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="8" y="4" width="24" height="32" rx="2" stroke="var(--color-accent)" stroke-width="2"/>
+              <path d="M14 14h12M14 20h12M14 26h8" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+              <path d="M16 9l2 2 4-4" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="tool-card__title">Regulatory Snapshot</h3>
+          <p class="tool-card__desc">
+            Energy rules, compliance requirements, carbon pricing, and what just changed. Country by country.
+          </p>
+          <span class="tool-card__cta">
+            Check regulations →
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section how-it-works">
+    <div class="container">
+      <div class="section__label">How it works</div>
+      <h2>Three steps. Under sixty seconds.</h2>
+
+      <div class="grid-3 steps-grid">
+        <div class="step">
+          <div class="step__number">01</div>
+          <h4>Select your parameters</h4>
+          <p>Country, sector, commodity, timeframe. Whatever you need.</p>
+        </div>
+        <div class="step">
+          <div class="step__number">02</div>
+          <h4>We pull from nine databases</h4>
+          <p>EIA, World Bank, UN Comtrade, IRENA, EITI, IEA, OPEC — pulled together and cross-checked live.</p>
+        </div>
+        <div class="step">
+          <div class="step__number">03</div>
+          <h4>Download your report</h4>
+          <p>A real report. Data, charts, analysis. Take it to your boardroom.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section glass-overlay">
+    <div class="container text-center">
+      <h2>Need the complete picture?</h2>
+      <p class="cta-section__text">
+        The tools show you the numbers. We dig into what they mean for your specific deal. Country by country. Commodity by commodity.
+      </p>
+      <a href="/contact" class="btn btn--primary btn--lg">
+        Talk to our team
+      </a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-top: calc(var(--header-height) + var(--space-24));
+    padding-bottom: var(--space-20);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: var(--space-6);
+    line-height: 1.1;
+  }
+
+  .hero__subtitle {
+    max-width: 640px;
+    margin-inline: auto;
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-10);
+    color: var(--color-text-secondary);
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-10);
+    background: var(--color-bg-secondary);
+  }
+  .stats-bar__inner {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+
+  /* Tools section */
+  .tools-heading {
+    margin-bottom: var(--space-4);
+  }
+  .tools-subheading {
+    max-width: 620px;
+    margin-bottom: var(--space-12);
+    font-size: var(--text-lg);
+  }
+
+  .tool-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    text-decoration: none;
+    color: inherit;
+  }
+  .tool-card:hover { color: inherit; }
+
+  .tool-card__icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-accent-muted);
+    border-radius: var(--radius-lg);
+  }
+
+  .tool-card__title {
+    font-size: var(--text-xl);
+  }
+
+  .tool-card__desc {
+    flex: 1;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .tool-card__cta {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-accent);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .tool-card:hover .tool-card__cta {
+    transform: translateX(4px);
+  }
+
+  /* How it works */
+  .how-it-works {
+    background: var(--color-bg-secondary);
+  }
+
+  .step {
+    text-align: center;
+    padding: var(--space-8);
+  }
+  .step__number {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    color: var(--color-accent);
+    opacity: 0.3;
+    margin-bottom: var(--space-4);
+  }
+  .step h4 {
+    margin-bottom: var(--space-3);
+  }
+  .step p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    overflow: hidden;
+  }
+  .cta-section h2 {
+    margin-bottom: var(--space-4);
+    position: relative;
+    z-index: 1;
+  }
+  .cta-section__text {
+    max-width: 500px;
+    margin-inline: auto;
+    margin-bottom: var(--space-8);
+    position: relative;
+    z-index: 1;
+  }
+  .cta-section .btn {
+    position: relative;
+    z-index: 1;
+  }
+</style>

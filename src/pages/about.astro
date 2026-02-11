@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="About" description="Syncsolved provides energy, commodities, and industrials intelligence for decision-makers entering new markets.">
+  <Header slot="header" />
+
+  <section class="about-page">
+    <div class="container">
+      <div class="section__label animate-fade-up">About</div>
+      <h1 class="animate-fade-up">We make expensive data<br /><span class="text-gradient">accessible to everyone</span></h1>
+
+      <div class="about-content animate-fade-up animate-delay-1">
+        <p>
+          Companies entering new energy and commodity markets hit the same wall: the data they need sits behind subscriptions that cost six figures a year. Platts, Argus, ICIS, Wood Mackenzie.
+        </p>
+        <p>
+          The subscriptions cost that much because the value isn't in any single number. It's in putting the numbers together and making sense of them across sources.
+        </p>
+        <p>
+          We built three tools that do that. They pull from nine institutional databases, clean the data, and give you a report. For free.
+        </p>
+      </div>
+
+      <div class="about-why card animate-fade-up animate-delay-2">
+        <h2>Why free?</h2>
+        <p>
+          Giving you the data is how we show what we can do with it. The tools give you the numbers. Our advisory work tells you what those numbers mean for your deal—who you're up against, how to get in, what could go wrong, and what to do first.
+        </p>
+        <p>
+          When the free tools save clients tens of thousands in data costs, the consulting relationship builds itself.
+        </p>
+      </div>
+
+      <div class="about-sources animate-fade-up animate-delay-3">
+        <h2>Our data sources</h2>
+        <div class="grid-3">
+          <div class="source-card card">
+            <h4>EIA</h4>
+            <p>U.S. Energy Information Administration — international energy production, consumption, and reserves data.</p>
+          </div>
+          <div class="source-card card">
+            <h4>World Bank</h4>
+            <p>Commodity Markets — historical pricing and development indicators for 190+ countries.</p>
+          </div>
+          <div class="source-card card">
+            <h4>UN Comtrade</h4>
+            <p>International trade flow data — imports, exports, and bilateral trade statistics.</p>
+          </div>
+          <div class="source-card card">
+            <h4>IRENA</h4>
+            <p>International Renewable Energy Agency — capacity, generation, and technology statistics.</p>
+          </div>
+          <div class="source-card card">
+            <h4>EITI</h4>
+            <p>Extractive Industries Transparency Initiative — revenue and governance data.</p>
+          </div>
+          <div class="source-card card">
+            <h4>IEA + OPEC</h4>
+            <p>Energy policies, legal instruments, and regulatory frameworks across all member states.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding-top: calc(var(--header-height) + var(--space-20));
+    padding-bottom: var(--space-20);
+  }
+  .about-page h1 {
+    margin-bottom: var(--space-10);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+  }
+  .about-content {
+    max-width: 640px;
+    margin-bottom: var(--space-12);
+  }
+  .about-content p {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+  .about-why {
+    margin-bottom: var(--space-12);
+    max-width: 640px;
+  }
+  .about-why h2 { margin-bottom: var(--space-4); }
+  .about-why p {
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+  .about-sources h2 { margin-bottom: var(--space-8); }
+  .source-card h4 {
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+  }
+  .source-card p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+</style>

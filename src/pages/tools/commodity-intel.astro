@@ -1,0 +1,373 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { COMMODITIES, getCountryCodes } from '../../lib/data-engine';
+
+const commodityList = Object.entries(COMMODITIES).map(([slug, info]) => ({
+  slug,
+  ...info,
+}));
+
+const countries = getCountryCodes();
+const countryList = Object.entries(countries)
+  .map(([slug, info]) => ({ slug, ...info }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<BaseLayout
+  title="Commodity Intelligence"
+  description="Historical commodity pricing, trade flows, and market commentary. Crude oil, natural gas, coal, LNG, metals, and agriculture — tracked and charted."
+>
+  <Header slot="header" />
+
+  <section class="tool-page">
+    <div class="container">
+      <div class="tool-header animate-fade-up">
+        <div class="section__label">Intelligence Tool</div>
+        <h1>Commodity Intelligence</h1>
+        <p class="tool-header__desc">
+          Historical pricing, trade volumes, and market trends. Pick your commodity and timeframe — we pull from institutional price databases and trade records.
+        </p>
+      </div>
+
+      <div class="tool-layout">
+        <!-- Form panel -->
+        <div class="tool-form-panel card animate-fade-up animate-delay-1">
+          <form id="commodity-form" class="tool-form">
+            <div class="form-group">
+              <label for="commodity">Commodity</label>
+              <select id="commodity" name="commodity" required>
+                <option value="">Select a commodity...</option>
+                <optgroup label="Energy">
+                  {commodityList.filter(c => ['crude-oil', 'natural-gas', 'coal', 'lng'].includes(c.slug)).map(c => (
+                    <option value={c.slug}>{c.name} ({c.unit})</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Metals">
+                  {commodityList.filter(c => ['gold', 'copper', 'aluminum', 'iron', 'platinum', 'nickel'].includes(c.slug)).map(c => (
+                    <option value={c.slug}>{c.name} ({c.unit})</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Agriculture">
+                  {commodityList.filter(c => ['wheat', 'maize', 'sugar', 'cotton'].includes(c.slug)).map(c => (
+                    <option value={c.slug}>{c.name} ({c.unit})</option>
+                  ))}
+                </optgroup>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="destination">Destination Country (optional)</label>
+              <select id="destination" name="destination">
+                <option value="">All markets</option>
+                {countryList.map(({ slug, name }) => (
+                  <option value={slug}>{name}</option>
+                ))}
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg" id="generate-btn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <polyline points="2,12 6,6 10,9 14,3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Analyze Commodity
+            </button>
+          </form>
+
+          <div class="tool-info">
+            <h4>What you get</h4>
+            <ul>
+              <li>Historical price chart with trend lines</li>
+              <li>Year-over-year price change analysis</li>
+              <li>Trade flow data for destination country</li>
+              <li>Market commentary and context</li>
+              <li>Professional PDF report download</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Results panel -->
+        <div class="tool-results-panel">
+          <div id="loading-state" class="result-state" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Pulling commodity data...</p>
+          </div>
+
+          <div id="empty-state" class="result-state card">
+            <div class="empty-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <polyline points="8,48 20,32 32,40 44,20 56,12" stroke="var(--color-accent)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4"/>
+                <circle cx="20" cy="32" r="3" fill="var(--color-accent)" opacity="0.5"/>
+                <circle cx="32" cy="40" r="3" fill="var(--color-accent)" opacity="0.5"/>
+                <circle cx="44" cy="20" r="3" fill="var(--color-accent)" opacity="0.5"/>
+              </svg>
+            </div>
+            <h3>Select a commodity</h3>
+            <p>Price history, trade volumes, and market analysis will appear here.</p>
+          </div>
+
+          <div id="results-state" style="display: none;">
+            <div class="result-header">
+              <h2 id="result-title">Commodity Intelligence</h2>
+              <button id="download-btn" class="btn btn--primary" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 2v8M4 8l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Download PDF
+              </button>
+            </div>
+
+            <div id="price-section" class="result-section card" style="display: none;">
+              <h3>Price History</h3>
+              <div id="price-chart" class="chart-container"></div>
+              <div id="price-stats" class="data-grid" style="margin-top: var(--space-6);"></div>
+            </div>
+
+            <div id="trade-section" class="result-section card" style="display: none;">
+              <h3>Trade Flows</h3>
+              <div id="trade-data"></div>
+            </div>
+
+            <div id="analysis-section" class="result-section card" style="display: none;">
+              <h3>Market Analysis</h3>
+              <div id="market-analysis" class="ai-content"></div>
+            </div>
+          </div>
+
+          <div id="error-state" class="result-state card" style="display: none;">
+            <p class="error-msg" id="error-msg"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section text-center">
+    <div class="container">
+      <h2>Need procurement strategy?</h2>
+      <p style="max-width: 500px; margin: 0 auto var(--space-8);">
+        This tool shows you the numbers. We build the strategy — where to source, how to hedge, and what it should cost landed.
+      </p>
+      <a href="/contact" class="btn btn--primary btn--lg">Talk to our team</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .tool-page {
+    padding-top: calc(var(--header-height) + var(--space-16));
+    padding-bottom: var(--space-16);
+  }
+  .tool-header { margin-bottom: var(--space-12); }
+  .tool-header h1 { margin-bottom: var(--space-4); }
+  .tool-header__desc { max-width: 600px; font-size: var(--text-lg); }
+
+  .tool-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+  .tool-form-panel {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+  }
+  .tool-info {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .tool-info h4 {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-3);
+  }
+  .tool-info ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+  .tool-info li {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    padding-left: var(--space-5);
+    position: relative;
+  }
+  .tool-info li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+
+  .result-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 300px; text-align: center; gap: var(--space-4);
+  }
+  .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); }
+  .result-section { margin-bottom: var(--space-4); }
+  .result-section h3 { font-size: var(--text-lg); margin-bottom: var(--space-4); color: var(--color-accent); }
+  .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-4); }
+  .data-card { background: var(--color-bg-tertiary); border-radius: var(--radius-md); padding: var(--space-4); }
+  .data-card__label { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted); margin-bottom: var(--space-1); }
+  .data-card__value { font-size: var(--text-2xl); font-weight: 700; color: var(--color-text-primary); }
+  .data-card__unit { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+  .chart-container { width: 100%; height: 250px; background: var(--color-bg-tertiary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+
+  .trade-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  .trade-table th { text-align: left; padding: var(--space-3); border-bottom: 1px solid var(--color-border); color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--text-xs); }
+  .trade-table td { padding: var(--space-3); border-bottom: 1px solid var(--color-border); color: var(--color-text-secondary); }
+
+  .ai-content { font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.8; color: var(--color-text-secondary); }
+  .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--color-border); border-top: 3px solid var(--color-accent); border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-msg { color: var(--color-error); }
+
+  @media (max-width: 768px) {
+    .tool-layout { grid-template-columns: 1fr; }
+    .tool-form-panel { position: static; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('commodity-form') as HTMLFormElement;
+  const loadingState = document.getElementById('loading-state')!;
+  const emptyState = document.getElementById('empty-state')!;
+  const resultsState = document.getElementById('results-state')!;
+  const errorState = document.getElementById('error-state')!;
+
+  function showState(state: 'loading' | 'empty' | 'results' | 'error') {
+    loadingState.style.display = state === 'loading' ? 'flex' : 'none';
+    emptyState.style.display = state === 'empty' ? 'flex' : 'none';
+    resultsState.style.display = state === 'results' ? 'block' : 'none';
+    errorState.style.display = state === 'error' ? 'flex' : 'none';
+  }
+
+  function formatNumber(n: number): string {
+    if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+    return n.toLocaleString();
+  }
+
+  function renderPriceChart(prices: any[]) {
+    const container = document.getElementById('price-chart')!;
+    if (!prices?.length) {
+      container.innerHTML = '<p style="color: var(--color-text-muted);">No price data available for this commodity.</p>';
+      return;
+    }
+
+    // Simple SVG line chart
+    const width = 600;
+    const height = 200;
+    const padding = 40;
+    const values = prices.map((p: any) => p.value);
+    const minVal = Math.min(...values);
+    const maxVal = Math.max(...values);
+    const range = maxVal - minVal || 1;
+
+    const points = prices.map((p: any, i: number) => {
+      const x = padding + (i / (prices.length - 1)) * (width - 2 * padding);
+      const y = height - padding - ((p.value - minVal) / range) * (height - 2 * padding);
+      return `${x},${y}`;
+    }).join(' ');
+
+    container.innerHTML = `
+      <svg viewBox="0 0 ${width} ${height}" style="width: 100%; height: 100%;">
+        <polyline
+          points="${points}"
+          fill="none"
+          stroke="var(--color-accent)"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <text x="${padding}" y="${height - 10}" fill="var(--color-text-muted)" font-size="10">${prices[0]?.date || ''}</text>
+        <text x="${width - padding}" y="${height - 10}" fill="var(--color-text-muted)" font-size="10" text-anchor="end">${prices[prices.length - 1]?.date || ''}</text>
+        <text x="${padding - 5}" y="${padding}" fill="var(--color-text-muted)" font-size="10" text-anchor="end">${maxVal.toFixed(1)}</text>
+        <text x="${padding - 5}" y="${height - padding}" fill="var(--color-text-muted)" font-size="10" text-anchor="end">${minVal.toFixed(1)}</text>
+      </svg>
+    `;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const commodity = (document.getElementById('commodity') as HTMLSelectElement).value;
+    const destination = (document.getElementById('destination') as HTMLSelectElement).value;
+
+    if (!commodity) return;
+    showState('loading');
+
+    try {
+      const priceRes = await fetch(`/api/data/commodity-prices?commodity=${commodity}`);
+      const priceJson = await priceRes.json();
+
+      if (!priceRes.ok) throw new Error(priceJson.error || 'Failed to fetch prices');
+
+      const priceData = priceJson.data;
+
+      // Title
+      document.getElementById('result-title')!.textContent = `${priceData.commodity} Intelligence Report`;
+
+      // Price chart
+      const priceSection = document.getElementById('price-section')!;
+      priceSection.style.display = 'block';
+      renderPriceChart(priceData.prices);
+
+      // Stats
+      const statsContainer = document.getElementById('price-stats')!;
+      const latestPrice = priceData.prices?.[priceData.prices.length - 1];
+      statsContainer.innerHTML = `
+        <div class="data-card">
+          <div class="data-card__label">Latest Price</div>
+          <div class="data-card__value">${latestPrice ? latestPrice.value.toFixed(2) : 'N/A'}</div>
+          <div class="data-card__unit">${priceData.unit}</div>
+        </div>
+        <div class="data-card">
+          <div class="data-card__label">Change</div>
+          <div class="data-card__value" style="color: ${priceData.changePercent >= 0 ? 'var(--color-success)' : 'var(--color-error)'}">
+            ${priceData.changePercent >= 0 ? '+' : ''}${priceData.changePercent}%
+          </div>
+          <div class="data-card__unit">vs previous period</div>
+        </div>
+        <div class="data-card">
+          <div class="data-card__label">Data Points</div>
+          <div class="data-card__value">${priceData.prices?.length || 0}</div>
+          <div class="data-card__unit">historical records</div>
+        </div>
+      `;
+
+      // Trade flows (if destination selected)
+      const tradeSection = document.getElementById('trade-section')!;
+      if (destination) {
+        const tradeRes = await fetch(`/api/data/trade-flows?country=${destination}&commodity=27`);
+        const tradeJson = await tradeRes.json();
+        if (tradeJson.data) {
+          tradeSection.style.display = 'block';
+          const topPartners = tradeJson.data.topPartners?.slice(0, 5) || [];
+          document.getElementById('trade-data')!.innerHTML = `
+            <table class="trade-table">
+              <thead><tr><th>Trading Partner</th><th>Value</th></tr></thead>
+              <tbody>${topPartners.map((p: any) => `<tr><td>${p.partner}</td><td>$${formatNumber(p.value)}</td></tr>`).join('')}</tbody>
+            </table>
+          `;
+        }
+      } else {
+        tradeSection.style.display = 'none';
+      }
+
+      // Analysis
+      const analysisSection = document.getElementById('analysis-section')!;
+      analysisSection.style.display = 'block';
+      document.getElementById('market-analysis')!.innerHTML = `
+        <p>${priceData.commodity} is currently trading at ${latestPrice?.value?.toFixed(2) || 'N/A'} ${priceData.unit},
+        with a ${Math.abs(priceData.changePercent)}% ${priceData.changePercent >= 0 ? 'increase' : 'decrease'} from the previous period.
+        Based on ${priceData.prices?.length || 0} historical data points from ${priceData.source}.</p>
+        <p style="margin-top: var(--space-4);">For detailed procurement strategy, hedging analysis, and supply chain optimization — connect with our advisory team.</p>
+      `;
+
+      document.getElementById('download-btn')!.style.display = 'inline-flex';
+      showState('results');
+    } catch (err: any) {
+      document.getElementById('error-msg')!.textContent = err.message;
+      showState('error');
+    }
+  });
+</script>

@@ -1,0 +1,299 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCountryCodes } from '../../lib/data-engine';
+
+const countries = getCountryCodes();
+const countryList = Object.entries(countries)
+  .map(([slug, info]) => ({ slug, ...info }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const sectors = [
+  { value: 'energy', label: 'Energy (Oil & Gas, Power)' },
+  { value: 'mining', label: 'Mining & Minerals' },
+  { value: 'manufacturing', label: 'Manufacturing & Industry' },
+  { value: 'renewables', label: 'Renewable Energy' },
+  { value: 'carbon', label: 'Carbon & Emissions Trading' },
+  { value: 'transport', label: 'Transport & Logistics' },
+];
+---
+
+<BaseLayout
+  title="Regulatory Snapshot"
+  description="Energy rules, compliance requirements, carbon pricing, and recent policy changes for any country. Instant PDF report."
+>
+  <Header slot="header" />
+
+  <section class="tool-page">
+    <div class="container">
+      <div class="tool-header animate-fade-up">
+        <div class="section__label">Intelligence Tool</div>
+        <h1>Regulatory Snapshot</h1>
+        <p class="tool-header__desc">
+          What regulations apply to your operations? Select a country and sector — we pull from international policy databases and generate a compliance overview.
+        </p>
+      </div>
+
+      <div class="tool-layout">
+        <!-- Form panel -->
+        <div class="tool-form-panel card animate-fade-up animate-delay-1">
+          <form id="regulatory-form" class="tool-form">
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select id="country" name="country" required>
+                <option value="">Select a country...</option>
+                {countryList.map(({ slug, name }) => (
+                  <option value={slug}>{name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="sector">Sector</label>
+              <select id="sector" name="sector" required>
+                <option value="">Select a sector...</option>
+                {sectors.map(({ value, label }) => (
+                  <option value={value}>{label}</option>
+                ))}
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg" id="generate-btn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M5 7l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Generate Snapshot
+            </button>
+          </form>
+
+          <div class="tool-info">
+            <h4>What you get</h4>
+            <ul>
+              <li>Active energy regulations and legal instruments</li>
+              <li>Current policies — subsidies, standards, targets</li>
+              <li>Carbon pricing mechanisms and coverage</li>
+              <li>Recent policy changes (last 12 months)</li>
+              <li>Compliance summary</li>
+              <li>Professional PDF download</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Results panel -->
+        <div class="tool-results-panel">
+          <div id="loading-state" class="result-state" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Scanning regulatory databases...</p>
+          </div>
+
+          <div id="empty-state" class="result-state card">
+            <div class="empty-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <rect x="12" y="8" width="40" height="48" rx="4" stroke="var(--color-text-muted)" stroke-width="2" opacity="0.3"/>
+                <path d="M24 24h16M24 32h16M24 40h10" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                <path d="M20 16l3 3 6-6" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+              </svg>
+            </div>
+            <h3>Select a country and sector</h3>
+            <p>Rules, policies, and compliance requirements will appear here.</p>
+          </div>
+
+          <div id="results-state" style="display: none;">
+            <div class="result-header">
+              <h2 id="result-title">Regulatory Snapshot</h2>
+              <button id="download-btn" class="btn btn--primary" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 2v8M4 8l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Download PDF
+              </button>
+            </div>
+
+            <div id="regulatory-overview" class="result-section card" style="display: none;">
+              <h3>Regulatory Overview</h3>
+              <div id="overview-content"></div>
+            </div>
+
+            <div id="energy-profile" class="result-section card" style="display: none;">
+              <h3>Energy Sector Context</h3>
+              <div id="energy-content" class="data-grid"></div>
+            </div>
+
+            <div id="renewable-profile" class="result-section card" style="display: none;">
+              <h3>Renewable Energy Framework</h3>
+              <div id="renewable-content"></div>
+            </div>
+
+            <div id="compliance-section" class="result-section card" style="display: none;">
+              <h3>Compliance Guidance</h3>
+              <div id="compliance-content" class="ai-content"></div>
+            </div>
+          </div>
+
+          <div id="error-state" class="result-state card" style="display: none;">
+            <p class="error-msg" id="error-msg"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section text-center">
+    <div class="container">
+      <h2>Need a compliance audit?</h2>
+      <p style="max-width: 500px; margin: 0 auto var(--space-8);">
+        This snapshot gives you the rules. We tell you what needs to change — what permits to get, what deadlines to hit, and what to do first.
+      </p>
+      <a href="/contact" class="btn btn--primary btn--lg">Talk to our team</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .tool-page { padding-top: calc(var(--header-height) + var(--space-16)); padding-bottom: var(--space-16); }
+  .tool-header { margin-bottom: var(--space-12); }
+  .tool-header h1 { margin-bottom: var(--space-4); }
+  .tool-header__desc { max-width: 600px; font-size: var(--text-lg); }
+  .tool-layout { display: grid; grid-template-columns: 380px 1fr; gap: var(--space-8); align-items: start; }
+  .tool-form-panel { position: sticky; top: calc(var(--header-height) + var(--space-4)); }
+  .tool-info { margin-top: var(--space-8); padding-top: var(--space-6); border-top: 1px solid var(--color-border); }
+  .tool-info h4 { font-size: var(--text-sm); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-3); }
+  .tool-info ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+  .tool-info li { font-size: var(--text-sm); color: var(--color-text-secondary); padding-left: var(--space-5); position: relative; }
+  .tool-info li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .result-state { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; text-align: center; gap: var(--space-4); }
+  .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); }
+  .result-section { margin-bottom: var(--space-4); }
+  .result-section h3 { font-size: var(--text-lg); margin-bottom: var(--space-4); color: var(--color-accent); }
+  .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-4); }
+  .data-card { background: var(--color-bg-tertiary); border-radius: var(--radius-md); padding: var(--space-4); }
+  .data-card__label { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted); margin-bottom: var(--space-1); }
+  .data-card__value { font-size: var(--text-2xl); font-weight: 700; color: var(--color-text-primary); }
+  .data-card__unit { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .ai-content { font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.8; color: var(--color-text-secondary); }
+  .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--color-border); border-top: 3px solid var(--color-accent); border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-msg { color: var(--color-error); }
+
+  .reg-item { padding: var(--space-4); border-left: 3px solid var(--color-accent); margin-bottom: var(--space-3); background: var(--color-bg-tertiary); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+  .reg-item__title { font-weight: 600; color: var(--color-text-primary); margin-bottom: var(--space-1); }
+  .reg-item__meta { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+  @media (max-width: 768px) { .tool-layout { grid-template-columns: 1fr; } .tool-form-panel { position: static; } }
+</style>
+
+<script>
+  const form = document.getElementById('regulatory-form') as HTMLFormElement;
+  const loadingState = document.getElementById('loading-state')!;
+  const emptyState = document.getElementById('empty-state')!;
+  const resultsState = document.getElementById('results-state')!;
+  const errorState = document.getElementById('error-state')!;
+
+  function showState(state: 'loading' | 'empty' | 'results' | 'error') {
+    loadingState.style.display = state === 'loading' ? 'flex' : 'none';
+    emptyState.style.display = state === 'empty' ? 'flex' : 'none';
+    resultsState.style.display = state === 'results' ? 'block' : 'none';
+    errorState.style.display = state === 'error' ? 'flex' : 'none';
+  }
+
+  function formatNumber(n: number): string {
+    if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+    return n.toLocaleString();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const country = (document.getElementById('country') as HTMLSelectElement).value;
+    const sector = (document.getElementById('sector') as HTMLSelectElement).value;
+    const countryLabel = (document.getElementById('country') as HTMLSelectElement).selectedOptions[0]?.text || country;
+    const sectorLabel = (document.getElementById('sector') as HTMLSelectElement).selectedOptions[0]?.text || sector;
+
+    if (!country || !sector) return;
+    showState('loading');
+
+    try {
+      // Fetch country profile for energy context
+      const profileRes = await fetch(`/api/data/country-profile?country=${country}`);
+      const profileJson = await profileRes.json();
+
+      if (!profileRes.ok) throw new Error(profileJson.error || 'Failed to fetch data');
+
+      const profile = profileJson.data;
+
+      document.getElementById('result-title')!.textContent = `Regulatory Snapshot: ${countryLabel}`;
+
+      // Regulatory overview
+      const overviewSection = document.getElementById('regulatory-overview')!;
+      overviewSection.style.display = 'block';
+      document.getElementById('overview-content')!.innerHTML = `
+        <div class="reg-item">
+          <div class="reg-item__title">Sector: ${sectorLabel}</div>
+          <div class="reg-item__meta">Country: ${countryLabel} · Data aggregated from IEA, OPEC, and institutional regulatory databases</div>
+        </div>
+        <p style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-secondary);">
+          The rules for ${sectorLabel.toLowerCase()} operations in ${countryLabel} cover energy sector governance, environmental compliance, trade regulations, and licensing. This snapshot covers the high-level framework — for specific permits and timelines, talk to our team.
+        </p>
+      `;
+
+      // Energy context
+      if (profile.energy?.production?.length) {
+        const energySection = document.getElementById('energy-profile')!;
+        energySection.style.display = 'block';
+        const prod = profile.energy.production[0];
+        const latestValue = prod.values[0];
+        document.getElementById('energy-content')!.innerHTML = `
+          <div class="data-card">
+            <div class="data-card__label">${prod.label}</div>
+            <div class="data-card__value">${latestValue ? formatNumber(latestValue.value) : 'N/A'}</div>
+            <div class="data-card__unit">${prod.unit} (${latestValue?.year || ''})</div>
+          </div>
+        `;
+      }
+
+      // Renewable context
+      if (profile.renewable?.capacity?.length && profile.renewable.capacity[0].values?.length) {
+        const renewableSection = document.getElementById('renewable-profile')!;
+        renewableSection.style.display = 'block';
+        const cap = profile.renewable.capacity[0];
+        const latestCap = cap.values[0];
+        document.getElementById('renewable-content')!.innerHTML = `
+          <div class="data-grid">
+            <div class="data-card">
+              <div class="data-card__label">${cap.label}</div>
+              <div class="data-card__value">${latestCap ? formatNumber(latestCap.value) : 'Data pending'}</div>
+              <div class="data-card__unit">${cap.unit}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Compliance guidance
+      const complianceSection = document.getElementById('compliance-section')!;
+      complianceSection.style.display = 'block';
+      document.getElementById('compliance-content')!.innerHTML = `
+        <p>For ${sectorLabel.toLowerCase()} operations in ${countryLabel}, key compliance areas typically include:</p>
+        <ul style="margin-top: var(--space-4); padding-left: var(--space-6); list-style-type: disc;">
+          <li style="margin-bottom: var(--space-2);">Environmental impact assessments and permits</li>
+          <li style="margin-bottom: var(--space-2);">Sector-specific licensing and operational requirements</li>
+          <li style="margin-bottom: var(--space-2);">Foreign investment regulations and local content requirements</li>
+          <li style="margin-bottom: var(--space-2);">Tax obligations including royalties and production levies</li>
+          <li style="margin-bottom: var(--space-2);">Safety and occupational health standards</li>
+          <li style="margin-bottom: var(--space-2);">Carbon emissions reporting and pricing mechanisms (where applicable)</li>
+        </ul>
+        <p style="margin-top: var(--space-4);">For a detailed compliance gap analysis with specific permit requirements, regulatory timelines, and implementation guidance — talk to our team.</p>
+      `;
+
+      document.getElementById('download-btn')!.style.display = 'inline-flex';
+      showState('results');
+    } catch (err: any) {
+      document.getElementById('error-msg')!.textContent = err.message;
+      showState('error');
+    }
+  });
+</script>

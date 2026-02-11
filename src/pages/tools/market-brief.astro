@@ -1,0 +1,488 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCountryCodes } from '../../lib/data-engine';
+
+const countries = getCountryCodes();
+const countryList = Object.entries(countries)
+  .map(([slug, info]) => ({ slug, ...info }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const sectors = [
+  { value: 'energy', label: 'Energy (Oil, Gas, Power)' },
+  { value: 'mining', label: 'Mining & Minerals' },
+  { value: 'manufacturing', label: 'Manufacturing' },
+  { value: 'renewables', label: 'Renewable Energy' },
+  { value: 'carbon', label: 'Carbon & Emissions' },
+];
+---
+
+<BaseLayout
+  title="Market Entry Briefing"
+  description="Country-level energy assessment for market entry. Production, trade, regulatory intel, and analysis — one downloadable report."
+>
+  <Header slot="header" />
+
+  <section class="tool-page">
+    <div class="container">
+      <!-- Header -->
+      <div class="tool-header animate-fade-up">
+        <div class="section__label">Intelligence Tool</div>
+        <h1>Market Entry Briefing</h1>
+        <p class="tool-header__desc">
+          Select a country and sector. We pull data from nine institutional sources, run the numbers, and hand you a report.
+        </p>
+      </div>
+
+      <div class="tool-layout">
+        <!-- Form panel -->
+        <div class="tool-form-panel card animate-fade-up animate-delay-1">
+          <form id="market-brief-form" class="tool-form">
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select id="country" name="country" required>
+                <option value="">Select a country...</option>
+                {countryList.map(({ slug, name }) => (
+                  <option value={slug}>{name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="sector">Sector</label>
+              <select id="sector" name="sector" required>
+                <option value="">Select a sector...</option>
+                {sectors.map(({ value, label }) => (
+                  <option value={value}>{label}</option>
+                ))}
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg" id="generate-btn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 4h12M2 8h12M2 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Generate Briefing
+            </button>
+          </form>
+
+          <div class="tool-info">
+            <h4>What you get</h4>
+            <ul>
+              <li>Energy production & consumption profile</li>
+              <li>Commodity import/export trade flows</li>
+              <li>Renewable energy capacity and targets</li>
+              <li>Regulatory environment and key rules</li>
+              <li>Executive summary</li>
+              <li>Professional PDF download</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Results panel -->
+        <div class="tool-results-panel animate-fade-up animate-delay-2">
+          <!-- Loading state -->
+          <div id="loading-state" class="result-state" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Querying data sources...</p>
+          </div>
+
+          <!-- Empty state -->
+          <div id="empty-state" class="result-state card">
+            <div class="empty-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <rect x="8" y="8" width="48" height="48" rx="8" stroke="var(--color-text-muted)" stroke-width="2" opacity="0.3"/>
+                <circle cx="32" cy="28" r="10" stroke="var(--color-accent)" stroke-width="2" opacity="0.5"/>
+                <path d="M22 46h20" stroke="var(--color-text-muted)" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+              </svg>
+            </div>
+            <h3>Select a country and sector</h3>
+            <p>Your Market Entry Briefing will appear here with live data from nine institutional sources.</p>
+          </div>
+
+          <!-- Results state -->
+          <div id="results-state" style="display: none;">
+            <div class="result-header">
+              <h2 id="result-title">Market Entry Briefing</h2>
+              <button id="download-btn" class="btn btn--primary" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 2v8M4 8l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Download PDF
+              </button>
+            </div>
+
+            <!-- Data sections -->
+            <div id="energy-section" class="result-section card" style="display: none;">
+              <h3>Energy Profile</h3>
+              <div id="energy-data" class="data-grid"></div>
+            </div>
+
+            <div id="trade-section" class="result-section card" style="display: none;">
+              <h3>Trade Flows</h3>
+              <div id="trade-data"></div>
+            </div>
+
+            <div id="renewable-section" class="result-section card" style="display: none;">
+              <h3>Renewable Energy</h3>
+              <div id="renewable-data"></div>
+            </div>
+
+            <div id="summary-section" class="result-section card" style="display: none;">
+              <h3>AI Analysis</h3>
+              <div id="ai-summary" class="ai-content"></div>
+            </div>
+          </div>
+
+          <!-- Error state -->
+          <div id="error-state" class="result-state card" style="display: none;">
+            <p class="error-msg" id="error-msg"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section text-center">
+    <div class="container">
+      <h2>Need deeper analysis?</h2>
+      <p style="max-width: 500px; margin: 0 auto var(--space-8);">
+        This briefing gives you the numbers. We dig into what they mean — who you're up against, how to get in, and what to watch out for.
+      </p>
+      <a href="/contact" class="btn btn--primary btn--lg">Talk to our team</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .tool-page {
+    padding-top: calc(var(--header-height) + var(--space-16));
+    padding-bottom: var(--space-16);
+  }
+
+  .tool-header {
+    margin-bottom: var(--space-12);
+  }
+  .tool-header h1 {
+    margin-bottom: var(--space-4);
+  }
+  .tool-header__desc {
+    max-width: 600px;
+    font-size: var(--text-lg);
+  }
+
+  .tool-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .tool-form-panel {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .tool-info {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .tool-info h4 {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-3);
+  }
+  .tool-info ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .tool-info li {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    padding-left: var(--space-5);
+    position: relative;
+  }
+  .tool-info li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  /* Results */
+  .result-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+    gap: var(--space-4);
+  }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .result-section {
+    margin-bottom: var(--space-4);
+  }
+  .result-section h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+    color: var(--color-accent);
+  }
+
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .data-card {
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+  .data-card__label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+  }
+  .data-card__value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+  .data-card__unit {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  /* Trade table */
+  .trade-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  .trade-table th {
+    text-align: left;
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--text-xs);
+  }
+  .trade-table td {
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .ai-content {
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-border);
+    border-top: 3px solid var(--color-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .error-msg {
+    color: var(--color-error);
+  }
+
+  @media (max-width: 768px) {
+    .tool-layout {
+      grid-template-columns: 1fr;
+    }
+    .tool-form-panel {
+      position: static;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('market-brief-form') as HTMLFormElement;
+  const loadingState = document.getElementById('loading-state')!;
+  const emptyState = document.getElementById('empty-state')!;
+  const resultsState = document.getElementById('results-state')!;
+  const errorState = document.getElementById('error-state')!;
+  const resultTitle = document.getElementById('result-title')!;
+  const downloadBtn = document.getElementById('download-btn')!;
+  const generateBtn = document.getElementById('generate-btn')!;
+
+  function showState(state: 'loading' | 'empty' | 'results' | 'error') {
+    loadingState.style.display = state === 'loading' ? 'flex' : 'none';
+    emptyState.style.display = state === 'empty' ? 'flex' : 'none';
+    resultsState.style.display = state === 'results' ? 'block' : 'none';
+    errorState.style.display = state === 'error' ? 'flex' : 'none';
+  }
+
+  function formatNumber(n: number): string {
+    if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+    return n.toLocaleString();
+  }
+
+  function renderEnergyData(energy: any) {
+    const section = document.getElementById('energy-section')!;
+    const container = document.getElementById('energy-data')!;
+
+    if (!energy || !energy.production?.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    const latestProduction = energy.production[0];
+    const latestValue = latestProduction.values[0];
+
+    container.innerHTML = `
+      <div class="data-card">
+        <div class="data-card__label">${latestProduction.label}</div>
+        <div class="data-card__value">${latestValue ? formatNumber(latestValue.value) : 'N/A'}</div>
+        <div class="data-card__unit">${latestProduction.unit} (${latestValue?.year || ''})</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card__label">Data Source</div>
+        <div class="data-card__value" style="font-size: var(--text-sm); font-weight: 500;">${energy.source}</div>
+      </div>
+    `;
+  }
+
+  function renderTradeData(trade: any) {
+    const section = document.getElementById('trade-section')!;
+    const container = document.getElementById('trade-data')!;
+
+    if (!trade || (!trade.imports?.length && !trade.exports?.length)) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+
+    const topPartners = trade.topPartners?.slice(0, 5) || [];
+    const tableRows = topPartners
+      .map((p: any) => `
+        <tr>
+          <td>${p.partner}</td>
+          <td>$${formatNumber(p.value)}</td>
+        </tr>
+      `)
+      .join('');
+
+    container.innerHTML = `
+      <p style="margin-bottom: var(--space-4); font-size: var(--text-sm); color: var(--color-text-muted);">
+        ${trade.imports.length} import records · ${trade.exports.length} export records
+      </p>
+      <table class="trade-table">
+        <thead>
+          <tr>
+            <th>Top Trading Partner</th>
+            <th>Total Value</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    `;
+  }
+
+  function renderRenewableData(renewable: any) {
+    const section = document.getElementById('renewable-section')!;
+    const container = document.getElementById('renewable-data')!;
+
+    if (!renewable || !renewable.capacity?.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    const latestCapacity = renewable.capacity[0];
+    const latestValue = latestCapacity?.values?.[0];
+
+    container.innerHTML = `
+      <div class="data-grid">
+        <div class="data-card">
+          <div class="data-card__label">${latestCapacity?.label || 'Renewable Capacity'}</div>
+          <div class="data-card__value">${latestValue ? formatNumber(latestValue.value) : 'Data pending'}</div>
+          <div class="data-card__unit">${latestCapacity?.unit || 'MW'}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const country = (document.getElementById('country') as HTMLSelectElement).value;
+    const sector = (document.getElementById('sector') as HTMLSelectElement).value;
+
+    if (!country || !sector) return;
+
+    showState('loading');
+    generateBtn.setAttribute('disabled', 'true');
+
+    try {
+      const response = await fetch(`/api/data/country-profile?country=${country}`);
+      const json = await response.json();
+
+      if (!response.ok || json.error) {
+        throw new Error(json.error || 'Failed to fetch data');
+      }
+
+      const profile = json.data;
+
+      resultTitle.textContent = `Market Entry Briefing: ${profile.country}`;
+      renderEnergyData(profile.energy);
+      renderTradeData(profile.trade);
+      renderRenewableData(profile.renewable);
+
+      // AI Summary section
+      const summarySection = document.getElementById('summary-section')!;
+      const aiSummary = document.getElementById('ai-summary')!;
+      summarySection.style.display = 'block';
+      aiSummary.innerHTML = `
+        <p>This report pulls data from institutional sources for ${profile.country}'s ${sector} sector.
+        For the full picture — who you're up against, where the risks are, and how to get in — talk to our advisory team.</p>
+      `;
+
+      downloadBtn.style.display = 'inline-flex';
+      showState('results');
+    } catch (err: any) {
+      const errorMsg = document.getElementById('error-msg')!;
+      errorMsg.textContent = err.message || 'Something went wrong. Please try again.';
+      showState('error');
+    } finally {
+      generateBtn.removeAttribute('disabled');
+    }
+  });
+</script>

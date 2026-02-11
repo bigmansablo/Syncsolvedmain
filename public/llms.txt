@@ -1,0 +1,27 @@
+# Syncsolved
+> Energy, commodities, and industrials intelligence platform.
+
+## Core Offerings
+- Market Entry Briefing: Country-level energy assessments (production, trade, regulatory, renewables)
+- Commodity Intelligence: Historical pricing, trade flows, and AI market commentary
+- Regulatory Snapshot: Compliance requirements, carbon pricing, and policy landscape
+
+## Data Sources
+- EIA (U.S. Energy Information Administration)
+- World Bank Commodity Markets
+- UN Comtrade International Trade
+- IRENA Renewable Energy Statistics
+- EITI Revenue Transparency
+- IEA Energy Policies
+- OPEC Energy Legal Database
+- World Bank Carbon Pricing Dashboard
+
+## Authority Domains
+- Energy market analysis
+- Commodity pricing and procurement
+- Regulatory compliance in extractive industries
+- Renewable energy market intelligence
+- Trade flow analysis for industrial commodities
+
+## Contact
+https://syncsolved.com/contact

@@ -1,0 +1,161 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/tools/market-brief', label: 'Market Brief' },
+  { href: '/tools/commodity-intel', label: 'Commodity Intel' },
+  { href: '/tools/regulatory', label: 'Regulatory' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Talk to us' },
+];
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo" aria-label="Syncsolved Home">
+      <img src="/syncsolved-logo.png" alt="Syncsolved" width="32" height="32" class="header__logo-icon" />
+      <span class="header__logo-text">Syncsolved</span>
+    </a>
+
+    <nav class="header__nav" aria-label="Main navigation">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'header__link',
+            { 'header__link--active': currentPath === href },
+            { 'header__link--cta': label === 'Talk to us' },
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <button class="header__mobile-toggle" aria-label="Toggle menu" id="mobile-menu-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background: rgba(10, 14, 23, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .header__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--text-lg);
+    letter-spacing: -0.02em;
+  }
+  .header__logo:hover {
+    color: var(--color-text-primary);
+  }
+  .header__logo-icon {
+    color: var(--color-accent);
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .header__link {
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .header__link:hover {
+    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .header__link--active {
+    color: var(--color-accent);
+    background: var(--color-accent-muted);
+  }
+  .header__link--cta {
+    background: linear-gradient(135deg, var(--color-accent), #d97706);
+    color: var(--color-bg-primary);
+    font-weight: 600;
+    margin-left: var(--space-2);
+  }
+  .header__link--cta:hover {
+    color: var(--color-bg-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--color-accent-glow);
+  }
+
+  .header__mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-2);
+  }
+  .header__mobile-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-text-primary);
+    border-radius: 1px;
+    transition: all var(--duration-base) var(--ease-out);
+  }
+
+  @media (max-width: 768px) {
+    .header__nav {
+      display: none;
+    }
+    .header__mobile-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const nav = document.querySelector('.header__nav') as HTMLElement;
+  if (btn && nav) {
+    btn.addEventListener('click', () => {
+      const isOpen = nav.style.display === 'flex';
+      nav.style.display = isOpen ? 'none' : 'flex';
+      nav.style.flexDirection = 'column';
+      nav.style.position = 'absolute';
+      nav.style.top = 'var(--header-height)';
+      nav.style.left = '0';
+      nav.style.right = '0';
+      nav.style.background = 'rgba(10, 14, 23, 0.95)';
+      nav.style.padding = 'var(--space-4)';
+      nav.style.borderBottom = '1px solid var(--color-border)';
+    });
+  }
+</script>

@@ -1,14 +1,27 @@
 {
   "name": "syncsolved",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Energy, commodities, and industrials intelligence platform",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "deploy": "wrangler pages deploy dist",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "@astrojs/cloudflare": "^12.5.3",
+    "@astrojs/react": "^4.2.1",
+    "@cloudflare/puppeteer": "^0.0.18",
+    "astro": "^5.17.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250205.0",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "wrangler": "^4.4.0"
   }
 }

@@ -1,46 +1,87 @@
-# Astro Starter Kit: Basics
+# Syncsolved
 
-```sh
-npm create astro@latest -- --template basics
+Energy, commodities, and industrials intelligence platform. Three free tools that replace $200k/yr in data subscriptions — generating professional PDF reports from government and institutional data sources.
+
+## What this is
+
+A consulting website that earns trust by giving away valuable data intelligence. Built on Astro 5 + Cloudflare Pages with zero monthly cost.
+
+### The three tools
+
+| Tool                            | What it does                                                                                                     |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Market Entry Briefing**       | Select a country + sector → get a comprehensive energy market assessment as a downloadable PDF                   |
+| **Commodity Cost Intelligence** | Select commodities + timeframe → get price history, trend analysis, and AI commentary as a PDF                   |
+| **Regulatory Snapshot**         | Select a country + sector → get current regulations, compliance requirements, and recent policy changes as a PDF |
+
+### Data sources
+
+All data is aggregated from free government and institutional APIs:
+
+- **EIA** — US + international energy data (190+ countries)
+- **World Bank** — 68+ commodity price indices and forecasts
+- **UN Comtrade** — Import/export trade data (200 countries)
+- **IRENA** — Renewable energy capacity and generation
+- **EITI** — Government/company energy revenues
+- **IEA** — 5,000+ energy policies across 85 countries
+- **OPEC ELD** — Energy legal instruments by country
+- **World Bank Carbon Pricing** — Carbon pricing mechanisms
+- **Carbon Pulse** — Voluntary carbon credit pricing
+
+## Tech stack
+
+- **Framework**: [Astro 5](https://astro.build) (hybrid SSR/SSG)
+- **Hosting**: [Cloudflare Pages](https://pages.cloudflare.com) (free tier)
+- **AI**: Cloudflare Workers AI (`@cf/meta/llama-3-8b-instruct`)
+- **PDF generation**: Cloudflare Browser Rendering (Puppeteer)
+- **Storage**: Cloudflare R2 (temporary report storage)
+- **UI components**: React islands + Shadcn/UI
+- **Styling**: CSS with custom energy-sector design system
+
+## Development
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Dev server runs on `http://0.0.0.0:4321`
 
-## 🚀 Project Structure
+## Build
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+npm run build
+npm run preview
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Deploy
 
-## 🧞 Commands
+Deployed automatically via Cloudflare Pages on push to `main`.
 
-All commands are run from the root of the project, from a terminal:
+## Project structure
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```
+src/
+├── layouts/          — Page layouts
+├── components/       — UI components (Astro + React islands)
+├── pages/
+│   ├── tools/        — The 3 intelligence tools
+│   └── api/          — Data pipeline + PDF generation
+├── lib/
+│   ├── data-engine.ts    — Unified data pipeline (all 9 sources)
+│   └── report-templates/ — PDF report HTML templates
+├── content/          — Articles and solutions (Astro content collections)
+└── styles/           — Global CSS
+public/
+├── robots.txt        — AI crawler access
+├── llms.txt          — AI authority declaration
+└── fonts/            — Computer Modern (LaTeX-quality typography)
+```
 
-## 👀 Want to learn more?
+## Environment variables
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Variable      | Description                                            |
+| ------------- | ------------------------------------------------------ |
+| `EIA_API_KEY` | Free API key from [EIA](https://www.eia.gov/opendata/) |
+
+All other data sources are queried without authentication.
