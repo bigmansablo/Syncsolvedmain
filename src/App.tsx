@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import BlankDemo from "./pages/blank-demo";
+import Home from "./pages";
+import About from "./pages/about";
+import AuditRequested from "./pages/audit-requested";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export default function App() {
@@ -7,7 +9,9 @@ export default function App() {
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<BlankDemo />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/audit-requested" element={<AuditRequested />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="600" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800&amp;display=swap');
+      .logo {
+        font-family: 'Inter Tight', sans-serif;
+        font-weight: 800;
+        font-size: 80px;
+        letter-spacing: -0.04em;
+      }
+      .sync { fill: #FAFAFA; }
+      .solved { fill: #00ff9d; }
+    </style>
+  </defs>
+  <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" class="logo">
+    <tspan class="sync">SYNC</tspan><tspan class="solved">SOLVED</tspan>
+  </text>
+</svg>
