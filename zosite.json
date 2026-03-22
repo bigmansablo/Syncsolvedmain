@@ -1,0 +1,15 @@
+{
+  "name": "SyncSolved",
+  "local_port": 58686,
+  "entrypoint": "bun run dev",
+  "publish": {
+    "label": "SyncSolved",
+    "type": "http",
+    "entrypoint": "bun run prod",
+    "published_port": 58457,
+    "env": {
+      "NODE_ENV": "production",
+      "ZO_CLIENT_IDENTITY_TOKEN": "none"
+    }
+  }
+}
