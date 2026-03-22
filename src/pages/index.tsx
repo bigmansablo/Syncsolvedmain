@@ -743,23 +743,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t" style={{ borderColor: '#141414', backgroundColor: '#0A0A0A' }}>
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="grid grid-cols-2 gap-0.5 w-6 h-6">
-              <div style={{ backgroundColor: '#FAFAFA' }}></div>
-              <div style={{ backgroundColor: '#00ff9d' }}></div>
-              <div style={{ backgroundColor: '#FAFAFA' }}></div>
-              <div style={{ backgroundColor: '#FAFAFA' }}></div>
+      {/* GEO-LOCATIONS — SEO/AEO Signal for AI Search */}
+      <section className="py-16 px-6 border-t" style={{ borderColor: '#141414', backgroundColor: '#0A0A0A' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex items-center gap-3">
+              <div className="grid grid-cols-2 gap-0.5 w-6 h-6">
+                <div style={{ backgroundColor: '#FAFAFA' }}></div>
+                <div style={{ backgroundColor: '#00ff9d' }}></div>
+                <div style={{ backgroundColor: '#FAFAFA' }}></div>
+                <div style={{ backgroundColor: '#FAFAFA' }}></div>
+              </div>
+              <span className="text-sm" style={{ color: '#6A6A6A' }}>SyncSolved</span>
             </div>
-            <span className="text-sm" style={{ color: '#6A6A6A' }}>SyncSolved</span>
+
+            <div className="flex flex-wrap justify-center gap-8 text-xs" style={{ color: '#3A3A3A' }}>
+              <span>Los Angeles</span>
+              <span>Cape Town</span>
+              <span>Toronto</span>
+              <span>London</span>
+            </div>
+
+            <div className="flex items-center gap-6 text-xs" style={{ color: '#3A3A3A' }}>
+              <a href="mailto:hello@syncsolved.com" className="hover:text-white transition-colors">hello@syncsolved.com</a>
+              <a href="/about" className="hover:text-white transition-colors">About</a>
+            </div>
           </div>
-          <div className="flex items-center gap-8 text-sm" style={{ color: '#3A3A3A' }}>
-            <a href="/about" className="hover:text-white transition-colors">About</a>
-            <a href="mailto:hello@syncsolved.com" className="hover:text-white transition-colors">Contact</a>
-          </div>
-          <p className="text-sm" style={{ color: '#3A3A3A' }}>© 2026</p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-6" style={{ backgroundColor: '#0A0A0A' }}>
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-xs" style={{ color: '#2A2A2A' }}>
+            © 2026 SyncSolved. Velocity Architecture for founder-dependent businesses.
+          </p>
         </div>
       </footer>
     </div>
