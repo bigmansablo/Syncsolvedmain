@@ -4,460 +4,140 @@ export default function About() {
       className="antialiased"
       style={{ 
         backgroundColor: '#0A0A0A',
-        color: '#FAFAFA',
+        color: '#FFFFFF',
         fontFamily: "'Inter', system-ui, sans-serif",
-        minHeight: '100vh'
+        minHeight: '100vh',
+        fontSize: '18px'
       }}
     >
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link 
-        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800&family=Inter:wght@400;500&display=swap" 
-        rel="stylesheet" 
-      />
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        * { border-radius: 0 !important; }
+        ::selection { background: #00ff9d; color: #0A0A0A; }
+        p { font-size: 20px !important; line-height: 1.7 !important; }
+        h1 { font-size: 72px !important; line-height: 1.0 !important; }
+        h2 { font-size: 48px !important; line-height: 1.1 !important; }
+        h3 { font-size: 28px !important; }
+        button { font-size: 18px !important; }
+        a { font-size: 18px !important; }
+        span { font-size: 20px !important; }
+      `}</style>
 
       {/* Navigation */}
       <nav 
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{ 
-          backgroundColor: '#0A0A0A',
-          borderBottom: '1px solid #141414'
+          backgroundColor: 'rgba(10,10,10,0.95)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid #1A1A1A',
+          padding: '20px 0'
         }}
       >
-        <div 
-          style={{ 
-            maxWidth: '1200px', 
-            margin: '0 auto',
-            padding: '16px 24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2px' }}>
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#FAFAFA' }} />
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#00ff9d' }} />
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#FAFAFA' }} />
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#FAFAFA' }} />
-            </div>
-            <span 
-              style={{ 
-                fontFamily: "'Inter Tight', sans-serif",
-                fontWeight: 800,
-                fontSize: '18px',
-                letterSpacing: '-0.04em'
-              }}
-            >
-              <span style={{ color: '#FAFAFA' }}>SYNC</span>
-              <span style={{ color: '#00ff9d' }}>SOLVED</span>
-            </span>
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-3">
+            <img src="/images/logo-mark.png" alt="SyncSolved" className="w-8 h-8" />
+            <span className="font-semibold" style={{ color: '#FFFFFF', fontSize: '20px' }}>SyncSolved</span>
           </a>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
-            <a 
-              href="/" 
-              style={{ fontSize: '14px', color: '#6A6A6A', transition: 'color 150ms' }}
-              className="hover:text-[#00ff9d]"
-            >
-              Home
-            </a>
-            <a 
-              href="/#audit"
-              className="text-sm px-4 py-2 border transition-all duration-150 hover:bg-[#00ff9d] hover:text-[#0A0A0A] hover:border-[#00ff9d]"
-              style={{ 
-                borderColor: '#00ff9d',
-                color: '#00ff9d',
-                borderWidth: '1px'
-              }}
-            >
-              Get the Audit
-            </a>
+          <div className="flex items-center gap-8">
+            <a href="/" style={{ color: '#FFFFFF', fontSize: '18px' }}>Home</a>
+            <a href="/about" style={{ color: '#FFFFFF', fontSize: '18px' }}>About</a>
+            <a href="/#audit" className="px-5 py-3 text-base uppercase tracking-wider border" style={{ borderColor: '#00ff9d', color: '#00ff9d' }}>Start</a>
           </div>
         </div>
       </nav>
 
-      {/* Header */}
-      <section style={{ padding: '160px 24px 80px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p 
-            style={{ 
-              fontSize: '14px',
-              color: '#00ff9d',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              marginBottom: '48px'
-            }}
-          >
-            About
-          </p>
-
+      {/* Hero */}
+      <section className="pt-40 pb-20 px-6" style={{ backgroundColor: '#0A0A0A' }}>
+        <div className="max-w-4xl mx-auto">
           <h1 
             style={{ 
-              fontFamily: "'Inter Tight', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 800,
-              fontSize: 'clamp(40px, 6vw, 72px)',
-              letterSpacing: '-0.04em',
-              lineHeight: '0.95',
-              maxWidth: '900px'
-            }}
-          >
-            We build systems that let founders step back.
-          </h1>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ height: '1px', backgroundColor: '#141414' }} />
-      </div>
-
-      {/* Philosophy */}
-      <section style={{ padding: '160px 24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '80px' }}>
-            <div>
-              <p 
-                style={{ 
-                  fontSize: '14px',
-                  color: '#00ff9d',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: '24px'
-                }}
-              >
-                What we believe
-              </p>
-              <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#FAFAFA' }}>
-                A business should serve the person who built it. Not the other way around.
-              </p>
-            </div>
-
-            <div>
-              <p 
-                style={{ 
-                  fontSize: '14px',
-                  color: '#00ff9d',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: '24px'
-                }}
-              >
-                What we do
-              </p>
-              <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#FAFAFA' }}>
-                We redesign how decisions flow, how knowledge is stored, how work gets done. 
-                The system functions without your constant presence.
-              </p>
-            </div>
-
-            <div>
-              <p 
-                style={{ 
-                  fontSize: '14px',
-                  color: '#00ff9d',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: '24px'
-                }}
-              >
-                What we don't do
-              </p>
-              <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#FAFAFA' }}>
-                Six-month engagements. Force your team to learn twelve new tools. 
-                Hand you templates and wish you luck.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ height: '1px', backgroundColor: '#141414' }} />
-      </div>
-
-      {/* Principles */}
-      <section style={{ padding: '160px 24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p 
-            style={{ 
-              fontSize: '14px',
-              color: '#00ff9d',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              marginBottom: '80px'
-            }}
-          >
-            How we work
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr', gap: '48px', alignItems: 'start' }}>
-              <span 
-                style={{ 
-                  fontFamily: "'Inter Tight', sans-serif",
-                  fontWeight: 800,
-                  fontSize: '48px',
-                  letterSpacing: '-0.02em',
-                  color: '#00ff9d'
-                }}
-              >
-                01
-              </span>
-              <div>
-                <h3 
-                  style={{ 
-                    fontFamily: "'Inter Tight', sans-serif",
-                    fontWeight: 800,
-                    fontSize: '32px',
-                    letterSpacing: '-0.02em',
-                    marginBottom: '16px'
-                  }}
-                >
-                  Systems over tactics
-                </h3>
-                <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#6A6A6A', maxWidth: '600px' }}>
-                  One closed deal teaches nothing. Ten closed deals show a pattern. 
-                  We look at the system — where the right people enter, where trust gets built fastest, where deals die.
-                </p>
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr', gap: '48px', alignItems: 'start' }}>
-              <span 
-                style={{ 
-                  fontFamily: "'Inter Tight', sans-serif",
-                  fontWeight: 800,
-                  fontSize: '48px',
-                  letterSpacing: '-0.02em',
-                  color: '#00ff9d'
-                }}
-              >
-                02
-              </span>
-              <div>
-                <h3 
-                  style={{ 
-                    fontFamily: "'Inter Tight', sans-serif",
-                    fontWeight: 800,
-                    fontSize: '32px',
-                    letterSpacing: '-0.02em',
-                    marginBottom: '16px'
-                  }}
-                >
-                  Ruthlessly patient, violently decisive
-                </h3>
-                <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#6A6A6A', maxWidth: '600px' }}>
-                  We wait for the right setup. We don't force deals that aren't ready. 
-                  But the moment the setup is right, we move without hesitation.
-                </p>
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr', gap: '48px', alignItems: 'start' }}>
-              <span 
-                style={{ 
-                  fontFamily: "'Inter Tight', sans-serif",
-                  fontWeight: 800,
-                  fontSize: '48px',
-                  letterSpacing: '-0.02em',
-                  color: '#00ff9d'
-                }}
-              >
-                03
-              </span>
-              <div>
-                <h3 
-                  style={{ 
-                    fontFamily: "'Inter Tight', sans-serif",
-                    fontWeight: 800,
-                    fontSize: '32px',
-                    letterSpacing: '-0.02em',
-                    marginBottom: '16px'
-                  }}
-                >
-                  Inversion thinking
-                </h3>
-                <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#6A6A6A', maxWidth: '600px' }}>
-                  Before we do anything, we ask what could go wrong. 
-                  Most failure is predictable. We look first. We find the stupidities. We remove them.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ height: '1px', backgroundColor: '#141414' }} />
-      </div>
-
-      {/* Investment */}
-      <section style={{ padding: '160px 24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p 
-            style={{ 
-              fontSize: '14px',
-              color: '#00ff9d',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              marginBottom: '80px'
-            }}
-          >
-            Investment
-          </p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px' }}>
-            <div style={{ border: '1px solid #141414', padding: '48px' }}>
-              <p 
-                style={{ 
-                  fontSize: '12px',
-                  color: '#6A6A6A',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: '16px'
-                }}
-              >
-                Entry Point
-              </p>
-              <p 
-                style={{ 
-                  fontFamily: "'Inter Tight', sans-serif",
-                  fontWeight: 800,
-                  fontSize: '48px',
-                  letterSpacing: '-0.02em',
-                  marginBottom: '8px'
-                }}
-              >
-                Velocity Audit
-              </p>
-              <p style={{ fontSize: '14px', color: '#6A6A6A', marginBottom: '24px' }}>
-                Zero-commitment diagnostic
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <li style={{ fontSize: '14px', color: '#FAFAFA' }}>Map of your dependency traps</li>
-                <li style={{ fontSize: '14px', color: '#FAFAFA' }}>Three priority systems to build</li>
-                <li style={{ fontSize: '14px', color: '#FAFAFA' }}>48-hour turnaround</li>
-              </ul>
-            </div>
-
-            <div style={{ border: '1px solid #00ff9d', padding: '48px' }}>
-              <p 
-                style={{ 
-                  fontSize: '12px',
-                  color: '#00ff9d',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginBottom: '16px'
-                }}
-              >
-                Core Engagement
-              </p>
-              <p 
-                style={{ 
-                  fontFamily: "'Inter Tight', sans-serif",
-                  fontWeight: 800,
-                  fontSize: '48px',
-                  letterSpacing: '-0.02em',
-                  marginBottom: '8px'
-                }}
-              >
-                Velocity Build
-              </p>
-              <p style={{ fontSize: '14px', color: '#6A6A6A', marginBottom: '24px' }}>
-                $10K – $25K + monthly continuity
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <li style={{ fontSize: '14px', color: '#FAFAFA' }}>Full dependency diagnosis</li>
-                <li style={{ fontSize: '14px', color: '#FAFAFA' }}>Custom system implementation</li>
-                <li style={{ fontSize: '14px', color: '#FAFAFA' }}>Team training & transfer</li>
-                <li style={{ fontSize: '14px', color: '#FAFAFA' }}>Results-based guarantee</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ height: '1px', backgroundColor: '#141414' }} />
-      </div>
-
-      {/* CTA */}
-      <section style={{ padding: '160px 24px' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-          <p 
-            style={{ 
-              fontFamily: "'Inter Tight', sans-serif",
-              fontWeight: 800,
-              fontSize: '32px',
-              letterSpacing: '-0.02em',
-              color: '#00ff9d',
+              fontSize: '72px',
+              lineHeight: 1.0,
+              letterSpacing: '-0.03em',
+              color: '#FFFFFF',
               marginBottom: '48px'
             }}
           >
-            Ready to start?
+            About SyncSolved
+          </h1>
+          <p style={{ fontSize: '24px', lineHeight: 1.7, color: '#FFFFFF' }}>
+            We help founders escape the dependency trap.
           </p>
-          <a 
-            href="/#audit"
-            className="inline-block px-8 py-4 text-sm border transition-all duration-150 hover:bg-[#00ff9d] hover:text-[#0A0A0A] hover:border-[#00ff9d]"
-            style={{ 
-              borderColor: '#FAFAFA',
-              color: '#FAFAFA',
-              borderWidth: '1px'
-            }}
-          >
-            Get the Velocity Audit
-          </a>
+        </div>
+      </section>
+
+      {/* Content */}
+      <section className="py-20 px-6" style={{ backgroundColor: '#0A0A0A' }}>
+        <div className="max-w-4xl mx-auto space-y-16">
+          <div>
+            <h2 style={{ fontSize: '48px', fontWeight: 700, color: '#FFFFFF', marginBottom: '24px' }}>
+              What we do
+            </h2>
+            <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
+              Most founders build businesses that cannot run without them. They become the bottleneck. Every decision waits on them. Every problem routes to them. They are trapped by the thing they created.
+            </p>
+            <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF', marginTop: '20px' }}>
+              We fix this. We redesign how decisions flow, how knowledge is stored, and how work gets done. We build systems that function without constant founder presence.
+            </p>
+          </div>
+
+          <div>
+            <h2 style={{ fontSize: '48px', fontWeight: 700, color: '#FFFFFF', marginBottom: '24px' }}>
+              How we work
+            </h2>
+            <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
+              We do not do six-month consulting engagements. We do not deliver reports you will never read. We work alongside your team, building systems that compound.
+            </p>
+            <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF', marginTop: '20px' }}>
+              Four to six weeks. Three core systems. One transformed business. You move from operator to architect.
+            </p>
+          </div>
+
+          <div>
+            <h2 style={{ fontSize: '48px', fontWeight: 700, color: '#FFFFFF', marginBottom: '24px' }}>
+              Who we work with
+            </h2>
+            <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
+              Physician practices. Logistics companies. Roofing companies. Any business where the founder is the load-bearing wall. If your revenue has plateaued because you are the bottleneck, we are built for you.
+            </p>
+          </div>
+
+          <div>
+            <h2 style={{ fontSize: '48px', fontWeight: 700, color: '#FFFFFF', marginBottom: '24px' }}>
+              What makes us different
+            </h2>
+            <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
+              We do not sell software. We do not sell training. We sell transformation — from a business that runs on you to a business that runs on systems.
+            </p>
+            <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF', marginTop: '20px' }}>
+              We are honest about what this takes. We are honest about where you are. We are honest about what will change.
+            </p>
+          </div>
+
+          <div className="p-12 border-l-4" style={{ borderColor: '#00ff9d' }}>
+            <p style={{ fontSize: '22px', lineHeight: 1.7, color: '#FFFFFF' }}>
+              If you are ready to stop being the bottleneck,{' '}
+              <a href="/#audit" style={{ color: '#00ff9d' }}>start with the Velocity Audit</a>.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '48px 24px', borderTop: '1px solid #141414' }}>
-        <div 
-          style={{ 
-            maxWidth: '1200px', 
-            margin: '0 auto',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '24px',
-            flexWrap: 'wrap'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2px' }}>
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#FAFAFA' }} />
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#00ff9d' }} />
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#FAFAFA' }} />
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#FAFAFA' }} />
-            </div>
-            <span 
-              style={{ 
-                fontFamily: "'Inter Tight', sans-serif",
-                fontWeight: 800,
-                fontSize: '16px',
-                letterSpacing: '-0.04em'
-              }}
-            >
-              <span style={{ color: '#FAFAFA' }}>SYNC</span>
-              <span style={{ color: '#00ff9d' }}>SOLVED</span>
-            </span>
-          </div>
-
-          <a 
-            href="mailto:hello@syncsolved.com"
-            style={{ fontSize: '14px', color: '#6A6A6A', transition: 'color 150ms' }}
-            className="hover:text-[#00ff9d]"
-          >
-            hello@syncsolved.com
+      <footer className="py-12 px-6 border-t" style={{ borderColor: '#1A1A1A', backgroundColor: '#0A0A0A' }}>
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <a href="/" className="flex items-center gap-3">
+            <img src="/images/logo-mark.png" alt="SyncSolved" className="w-6 h-6" />
+            <span style={{ fontSize: '18px', color: '#FFFFFF' }}>SyncSolved</span>
           </a>
-
-          <p style={{ fontSize: '14px', color: '#3A3A3A' }}>
-            © 2026
-          </p>
+          <div className="flex items-center gap-8">
+            <a href="/" style={{ fontSize: '18px', color: '#FFFFFF' }}>Home</a>
+            <a href="/about" style={{ fontSize: '18px', color: '#FFFFFF' }}>About</a>
+            <a href="mailto:hello@syncsolved.com" style={{ fontSize: '18px', color: '#FFFFFF' }}>Contact</a>
+          </div>
+          <p style={{ fontSize: '16px', color: '#FFFFFF' }}>© 2026</p>
         </div>
       </footer>
     </div>
