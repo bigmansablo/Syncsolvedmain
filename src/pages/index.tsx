@@ -577,12 +577,10 @@ export default function Home() {
               A zero-commitment diagnostic that maps your specific dependency traps and identifies the three systems that would free you first.
             </p>
 
-            {/* Main CTA - Calendly */}
+            {/* Main CTA - Direct link to audit-requested page */}
             <a
-              href="https://cal.id/syncsolved/velocity-audit"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-10 py-5 text-lg border transition-all mb-6"
+              href="/audit-requested"
+              className="inline-block px-10 py-5 text-lg border transition-all hover:text-black"
               style={{ borderColor: '#00ff9d', color: '#00ff9d' }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#00ff9d';
@@ -596,23 +594,10 @@ export default function Home() {
               Book Your Audit →
             </a>
 
-            <div className="flex flex-wrap justify-center gap-8 mb-8" style={{ fontSize: '16px', color: '#FFFFFF' }}>
-              <span>30-minute call</span>
+            <div className="flex flex-wrap justify-center gap-8 mt-8" style={{ fontSize: '16px', color: '#FFFFFF' }}>
+              <span>48-hour turnaround</span>
               <span>No sales pitch</span>
               <span>Specific to your situation</span>
-            </div>
-
-            <div className="pt-8 border-t" style={{ borderColor: '#1A1A1A' }}>
-              <p style={{ fontSize: '18px', color: '#FFFFFF' }}>
-                Prefer email?{' '}
-                <a 
-                  href="mailto:hello@syncsolved.com?subject=Velocity Audit Request" 
-                  className="hover:text-white transition-colors" 
-                  style={{ color: '#00ff9d' }}
-                >
-                  hello@syncsolved.com
-                </a>
-              </p>
             </div>
           </div>
         </div>

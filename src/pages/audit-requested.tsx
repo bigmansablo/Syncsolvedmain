@@ -15,11 +15,11 @@ export default function AuditRequested() {
         * { border-radius: 0 !important; }
         ::selection { background: #00ff9d; color: #0A0A0A; }
         p { font-size: 20px !important; line-height: 1.7 !important; }
-        h1 { font-size: 72px !important; line-height: 1.0 !important; }
-        h2 { font-size: 48px !important; line-height: 1.1 !important; }
-        button { font-size: 18px !important; }
-        a { font-size: 18px !important; }
-        span { font-size: 20px !important; }
+        h1 { font-size: '72px' !important; line-height: 1.0 !important; }
+        h2 { font-size: '48px' !important; line-height: 1.1 !important; }
+        button { font-size: '18px' !important; }
+        a { font-size: '18px' !important; }
+        span { font-size: '20px' !important; }
       `}</style>
 
       {/* Navigation */}
@@ -44,14 +44,10 @@ export default function AuditRequested() {
         </div>
       </nav>
 
-      {/* Success Message */}
+      {/* Main Content - Book Your Call */}
       <section className="min-h-screen flex flex-col justify-center items-center px-6 py-40" style={{ backgroundColor: '#0A0A0A' }}>
         <div className="max-w-2xl mx-auto text-center">
-          <div className="w-24 h-24 mx-auto mb-12 border flex items-center justify-center" style={{ borderColor: '#00ff9d' }}>
-            <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="#00ff9d" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
+          <p className="text-base uppercase tracking-wider mb-8" style={{ color: '#00ff9d' }}>Next Step</p>
           
           <h1 
             style={{ 
@@ -64,42 +60,19 @@ export default function AuditRequested() {
               marginBottom: '32px'
             }}
           >
-            Request received.
+            Book your Velocity Audit call.
           </h1>
           
           <p className="mb-12" style={{ fontSize: '24px', lineHeight: 1.7, color: '#FFFFFF' }}>
-            We will send your Velocity Audit within 48 hours.
+            30 minutes. Zero commitment. We map your dependency traps and identify the systems that would free you first.
           </p>
 
-          <div className="p-12 border mb-12" style={{ borderColor: '#1A1A1A', backgroundColor: '#0A0A0A' }}>
-            <h3 className="mb-6" style={{ fontSize: '28px', fontWeight: 700, color: '#FFFFFF' }}>
-              What happens next
-            </h3>
-            <div className="space-y-6 text-left">
-              <div className="flex items-start gap-4">
-                <span style={{ color: '#00ff9d', fontSize: '20px', fontWeight: 600 }}>1.</span>
-                <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
-                  We review your request and prepare a custom diagnostic
-                </p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span style={{ color: '#00ff9d', fontSize: '20px', fontWeight: 600 }}>2.</span>
-                <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
-                  You receive the Velocity Audit via email within 48 hours
-                </p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span style={{ color: '#00ff9d', fontSize: '20px', fontWeight: 600 }}>3.</span>
-                <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
-                  We follow up with one question: does this make sense for your situation?
-                </p>
-              </div>
-            </div>
-          </div>
-
+          {/* Main CTA - Calendly */}
           <a 
-            href="/" 
-            className="inline-block px-10 py-5 text-lg border transition-all hover:text-black"
+            href="https://cal.id/syncsolved/velocity-audit"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-10 py-5 text-lg border transition-all hover:text-black mb-12"
             style={{ borderColor: '#00ff9d', color: '#00ff9d' }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#00ff9d';
@@ -110,7 +83,49 @@ export default function AuditRequested() {
               e.currentTarget.style.color = '#00ff9d';
             }}
           >
-            Return to homepage →
+            Choose your time →
+          </a>
+
+          <div className="p-12 border mb-12" style={{ borderColor: '#1A1A1A', backgroundColor: '#0A0A0A' }}>
+            <h3 className="mb-8" style={{ fontSize: '28px', fontWeight: 700, color: '#FFFFFF' }}>
+              What happens on the call
+            </h3>
+            <div className="space-y-6 text-left">
+              <div className="flex items-start gap-4">
+                <span style={{ color: '#00ff9d', fontSize: '20px', fontWeight: 600 }}>1.</span>
+                <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
+                  You describe where your time goes and what keeps routing to you
+                </p>
+              </div>
+              <div className="flex items-start gap-4">
+                <span style={{ color: '#00ff9d', fontSize: '20px', fontWeight: 600 }}>2.</span>
+                <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
+                  We identify the three systems that would remove those bottlenecks first
+                </p>
+              </div>
+              <div className="flex items-start gap-4">
+                <span style={{ color: '#00ff9d', fontSize: '20px', fontWeight: 600 }}>3.</span>
+                <p style={{ fontSize: '20px', lineHeight: 1.7, color: '#FFFFFF' }}>
+                  You decide if this makes sense for your situation — no pitch, no pressure
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <a 
+            href="/" 
+            className="inline-block px-10 py-5 text-lg border transition-all"
+            style={{ borderColor: '#1A1A1A', color: '#FFFFFF' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#00ff9d';
+              e.currentTarget.style.color = '#00ff9d';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#1A1A1A';
+              e.currentTarget.style.color = '#FFFFFF';
+            }}
+          >
+            ← Return to homepage
           </a>
         </div>
       </section>
